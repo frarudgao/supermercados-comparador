@@ -1,0 +1,30 @@
+name: Actualizar precios diarios
+
+on:
+  schedule:
+    - cron: '0 4 * * *'  # Ejecuta a las 04:00 UTC cada día
+  workflow_dispatch:     # Permite ejecutarlo manualmente
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar el repositorio
+      uses: actions/checkout@v3
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Ejecutar el script de scraper
+      run: python scripts/scraper.py
+
+    - name: Commit y push del archivo actualizado
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add precios_diarios.json
+        git commit -m "Actualización automática de precios - $(date +'%Y-%m-%d')" || echo "Sin cambios que hacer"
+        git push
