@@ -2,11 +2,14 @@ name: Actualizar precios diarios
 
 on:
   schedule:
-    - cron: '0 4 * * *'  # Ejecuta a las 04:00 UTC cada día
-  workflow_dispatch:     # Permite ejecutarlo manualmente
+    - cron: '0 4 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
+    permissions:
+      contents: write  # <--- esta línea permite hacer git push
+
     runs-on: ubuntu-latest
 
     steps:
@@ -28,3 +31,4 @@ jobs:
         git add precios_diarios.json
         git commit -m "Actualización automática de precios - $(date +'%Y-%m-%d')" || echo "Sin cambios que hacer"
         git push
+
