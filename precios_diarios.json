@@ -1,32 +1,32 @@
 [
   {
     "producto": "Leche entera 1L",
-    "mercadona": 1.21,
-    "carrefour": 1.08,
-    "fecha": "2025-05-30"
+    "mercadona": 0.91,
+    "carrefour": 2.22,
+    "fecha": "2025-05-31"
   },
   {
     "producto": "Huevos talla L docena",
-    "mercadona": 1.54,
-    "carrefour": 1.39,
-    "fecha": "2025-05-30"
+    "mercadona": 2.4,
+    "carrefour": 0.91,
+    "fecha": "2025-05-31"
   },
   {
     "producto": "Arroz redondo 1kg",
-    "mercadona": 2.12,
-    "carrefour": 1.53,
-    "fecha": "2025-05-30"
+    "mercadona": 1.45,
+    "carrefour": 1.49,
+    "fecha": "2025-05-31"
   },
   {
     "producto": "Aceite de oliva virgen extra 1L",
-    "mercadona": 1.24,
-    "carrefour": 1.22,
-    "fecha": "2025-05-30"
+    "mercadona": 1.73,
+    "carrefour": 1.07,
+    "fecha": "2025-05-31"
   },
   {
     "producto": "Pasta espaguetis 500g",
-    "mercadona": 1.91,
-    "carrefour": 1.62,
-    "fecha": "2025-05-30"
+    "mercadona": 1.33,
+    "carrefour": 2.28,
+    "fecha": "2025-05-31"
   }
 ]
