@@ -13,8 +13,13 @@ def obtener_precio_por_id(id_producto, nombre_producto):
     try:
         res = requests.get(url)
         data = res.json()
-        precio = data["price_instructions"]["price"]
-        return float(precio)
+
+        if "price_instructions" in data and "price" in data["price_instructions"]:
+            return float(data["price_instructions"]["price"])
+        else:
+            print(f"⚠️ Producto sin campo 'price_instructions': {nombre_producto}")
+            return None
+
     except Exception as e:
         print(f"❌ Error al obtener precio del producto '{nombre_producto}' (ID: {id_producto}): {e}")
         return None
@@ -34,7 +39,7 @@ for item in productos:
 
     datos_actualizados.append({
         "producto": nombre,
-        "mercadona": precio_mercadona if precio_mercadona else 0.00,
+        "mercadona": round(precio_mercadona, 2) if precio_mercadona is not None else 0.00,
         "carrefour": precio_carrefour,
         "fecha": datetime.now().strftime("%Y-%m-%d")
     })
