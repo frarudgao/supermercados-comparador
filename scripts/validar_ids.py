@@ -26,6 +26,7 @@ for producto in productos:
             print(f"⚠️ {nombre} (ID: {id_}) → Producto encontrado, pero sin precio")
         else:
             print(f"✅ {nombre} (ID: {id_}) → Precio actual: {price:.2f} €")
+            
 
     except Exception as e:
         print(f"❌ Error al procesar {nombre} (ID: {id_}): {e}")
