@@ -3,45 +3,39 @@ import requests
 from datetime import datetime
 import random
 
-# Lista de productos comunes (tal como los tienes en productos.json)
-productos_comunes = [
-    "Leche entera 1L",
-    "Huevos talla L docena",
-    "Arroz redondo 1kg",
-    "Aceite de oliva virgen extra 1L",
-    "Pasta espaguetis 500g"
-]
+# Cargar productos con IDs exactos de Mercadona
+with open("mercadona_ids.json", "r", encoding="utf-8") as f:
+    productos = json.load(f)
 
-# Función para buscar un producto por nombre aproximado en Mercadona
-def buscar_precio_mercadona(nombre_producto):
-    url_busqueda = f"https://tienda.mercadona.es/api/search/?query={nombre_producto}"
+# Función para obtener el precio real desde Mercadona por ID
+def obtener_precio_por_id(id_producto):
+    url = f"https://tienda.mercadona.es/api/products/{id_producto}"
     try:
-        res = requests.get(url_busqueda)
-        datos = res.json()
-        productos = datos.get("results", [])
-        if productos:
-            return float(productos[0]["price_instructions"]["price"])
-        else:
-            return None
+        res = requests.get(url)
+        data = res.json()
+        return float(data["price_instructions"]["price"])
     except:
         return None
 
-# Crear el listado final
+# Crear listado actualizado
 datos_actualizados = []
 
-for producto in productos_comunes:
-    precio_mercadona = buscar_precio_mercadona(producto)
-    precio_carrefour = round(random.uniform(0.8, 2.5), 2)  # provisional
+for item in productos:
+    nombre = item["nombre"]
+    id_mercadona = item["id"]
+    precio_mercadona = obtener_precio_por_id(id_mercadona)
+    precio_carrefour = round(random.uniform(0.8, 2.5), 2)  # temporal
 
     datos_actualizados.append({
-        "producto": producto,
+        "producto": nombre,
         "mercadona": precio_mercadona if precio_mercadona else 0.00,
         "carrefour": precio_carrefour,
         "fecha": datetime.now().strftime("%Y-%m-%d")
     })
 
-# Guardar en JSON
+# Guardar resultado
 with open("precios_diarios.json", "w", encoding="utf-8") as f:
     json.dump(datos_actualizados, f, indent=2, ensure_ascii=False)
+
 
 
