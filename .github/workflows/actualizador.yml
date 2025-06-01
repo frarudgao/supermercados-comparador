@@ -1,15 +1,12 @@
-name: Actualizar precios diarios
+name: Actualización automática de precios
 
 on:
   schedule:
-    - cron: '0 4 * * *'
-  workflow_dispatch:
+    - cron: '0 8 * * *'  # Cada día a las 08:00 UTC (10:00 hora española)
+  workflow_dispatch:      # Permite ejecutarlo manualmente desde GitHub
 
 jobs:
-  build:
-    permissions:
-      contents: write  # <--- esta línea permite hacer git push
-
+  actualizar-precios:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,16 +16,20 @@ jobs:
     - name: Configurar Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.x'
+        python-version: '3.10'
 
-    - name: Ejecutar el script de scraper
+    - name: Instalar dependencias
+      run: pip install requests beautifulsoup4
+
+    - name: Ejecutar scraper
       run: python scripts/scraper.py
 
-    - name: Commit y push del archivo actualizado
+    - name: Confirmar y subir cambios
       run: |
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add precios_diarios.json
-        git commit -m "Actualización automática de precios - $(date +'%Y-%m-%d')" || echo "Sin cambios que hacer"
+        git commit -m "Actualización automática de precios - $(date +'%Y-%m-%d')" || echo "No hay cambios"
         git push
+
 
