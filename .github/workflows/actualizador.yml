@@ -7,6 +7,8 @@ on:
 
 jobs:
   actualizar-precios:
+    permissions:
+      contents: write  # 🔴 Esto permite hacer git push
     runs-on: ubuntu-latest
 
     steps:
@@ -31,5 +33,6 @@ jobs:
         git add precios_diarios.json
         git commit -m "Actualización automática de precios - $(date +'%Y-%m-%d')" || echo "No hay cambios"
         git push
+
 
 
